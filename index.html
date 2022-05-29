@@ -6,8 +6,114 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>Weather App</title>
 		<link rel="stylesheet" href="./style.css" type="text/css"/>
+		<script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/textFit.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	</head>
 	<body>
+		<div class="card">
+			<div class="search-box">
+				<input type="box" placeholder="e.g London" id="srch-box"/>
+			</div>
+			<div id="weather-card">
+				<div class="weather-box">
+					<div class="weather-info-box">
+						<p class="text-degree"><span></span><img src=""/></p>
+						<p class="text-precep"></p>
+						<p class="text-humidity"></p>
+						<p class="text-wind"></p>
+					</div>
+					<div class="location-info-box">
+						<p class="text-loc"></p>
+						<p class="text-day"></p>
+						<p class="text-weather"></p>
+					</div>
+				</div>
+				<div class="graph-box">
+					<p><span data-for="temp" onclick="toggle(this)">Temperature</span> | <span data-for="humidity" onclick="toggle(this)">Humidity</span> | <span data-for="wind" onclick="toggle(this)">Wind</span></p>
+					<div class="graphs">
+						<canvas id="temp-chart" ></canvas>
+						<canvas id="humidity-chart" ></canvas>
+						<canvas id="wind-chart" ></canvas>
+					</div>
+				</div>
 
+				<div class="days-box">
+					<div data-day="first">
+						<p class="text-ff-day"></p>
+						<img src=""/>
+						<p class="text-temp"></p>
+					</div>
+					<div data-day="second">
+						<p class="text-ff-day"></p>
+						<img src=""/>
+						<p class="text-temp"></p>
+					</div>
+					<div data-day="third">
+						<p class="text-ff-day"></p>
+						<img src=""/>
+						<p class="text-temp"></p>
+					</div>
+				</div>
+			</div>
+
+			<div id="loading-card">
+				<div id="loading-wheel"></div>
+			</div>
+		</div>
 	</body>
+	<script type="text/javascript" src="./weather.js"></script>
+
+	<script>
+
+		document.querySelector('span[data-for="temp"]').classList.add('spanFocus');
+
+		function toggle(who){
+			let temp = document.querySelector('span[data-for="temp"]');
+			let humidity = document.querySelector('span[data-for="humidity"]');
+			let wind = document.querySelector('span[data-for="wind"]');
+			let tempC = document.querySelector('#temp-chart');
+			let humidityC = document.querySelector('#humidity-chart');
+			let windC = document.querySelector('#wind-chart');
+			let el = [temp, humidity, wind, tempC, humidityC, windC];
+			switch(who.dataset.for){
+				case 'temp':
+					toggleT(el);
+					break;	
+				case 'humidity':
+					toggleH(el);
+					break;
+				case 'wind':
+					toggleW(el);
+					break;
+			}
+		}
+
+		function toggleT(el){
+			el[0].classList.add('spanFocus');
+			el[1].classList.remove('spanFocus');
+			el[2].classList.remove('spanFocus');	
+			el[3].style.transform = 'translateX(0%)';
+			el[4].style.transform = 'translateX(0%)';
+			el[5].style.transform = 'translateX(0%)';
+					
+		}
+		
+		function toggleH(el){
+			el[0].classList.remove('spanFocus');
+			el[1].classList.add('spanFocus');
+			el[2].classList.remove('spanFocus');	
+			el[3].style.transform = 'translateX(-100%)';
+			el[4].style.transform = 'translateX(-100%)';
+			el[5].style.transform = 'translateX(-100%)';
+		}
+
+		function toggleW(el){
+			el[0].classList.remove('spanFocus');
+			el[1].classList.remove('spanFocus');
+			el[2].classList.add('spanFocus');	
+			el[3].style.transform = 'translateX(-200%)';
+			el[4].style.transform = 'translateX(-200%)';
+			el[5].style.transform = 'translateX(-200%)';
+		}
+	</script>
 </html>
