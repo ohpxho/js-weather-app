@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>Weather App</title>
+		<link rel="icon" href="https://cdn.weatherapi.com/weather/64x64/day/116.png">
 		<link rel="stylesheet" href="./style.css" type="text/css"/>
 		<script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/textFit.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -12,12 +13,14 @@
 	<body>
 		<div class="card">
 			<div class="search-box">
-				<input type="box" placeholder="e.g London" id="srch-box"/>
+				<input type="box" placeholder="e.g Paris" id="srch-box"/>
 			</div>
+			
 			<div id="weather-card">
+				<div class="degree-toggle" onclick="toggleDegreeType(event)"><div class="toggle-wheel"><span class="type">°C</span></div></div>
 				<div class="weather-box">
 					<div class="weather-info-box">
-						<p class="text-degree"><span></span><img src=""/></p>
+						<p class="text-degree"><span class="cel"></span><span class="fah"></span><img src=""/></p>
 						<p class="text-precep"></p>
 						<p class="text-humidity"></p>
 						<p class="text-wind"></p>
@@ -31,7 +34,8 @@
 				<div class="graph-box">
 					<p><span data-for="temp" onclick="toggle(this)">Temperature</span> | <span data-for="humidity" onclick="toggle(this)">Humidity</span> | <span data-for="wind" onclick="toggle(this)">Wind</span></p>
 					<div class="graphs">
-						<canvas id="temp-chart" ></canvas>
+						<canvas id="celcius-chart" ></canvas>
+						<canvas id="fah-chart" ></canvas>
 						<canvas id="humidity-chart" ></canvas>
 						<canvas id="wind-chart" ></canvas>
 					</div>
@@ -41,17 +45,20 @@
 					<div data-day="first">
 						<p class="text-ff-day"></p>
 						<img src=""/>
-						<p class="text-temp"></p>
+						<p class="text-cel"></p>
+						<p class="text-fah"></p>
 					</div>
 					<div data-day="second">
 						<p class="text-ff-day"></p>
 						<img src=""/>
-						<p class="text-temp"></p>
+						<p class="text-cel"></p>
+						<p class="text-fah"></p>
 					</div>
 					<div data-day="third">
 						<p class="text-ff-day"></p>
 						<img src=""/>
-						<p class="text-temp"></p>
+						<p class="text-cel"></p>
+						<p class="text-fah"></p>
 					</div>
 				</div>
 			</div>
@@ -71,10 +78,11 @@
 			let temp = document.querySelector('span[data-for="temp"]');
 			let humidity = document.querySelector('span[data-for="humidity"]');
 			let wind = document.querySelector('span[data-for="wind"]');
-			let tempC = document.querySelector('#temp-chart');
+			let celC = document.querySelector('#celcius-chart');
+			let fahC = document.querySelector('#fah-chart');
 			let humidityC = document.querySelector('#humidity-chart');
 			let windC = document.querySelector('#wind-chart');
-			let el = [temp, humidity, wind, tempC, humidityC, windC];
+			let el = [temp, humidity, wind, celC, fahC, humidityC, windC];
 			switch(who.dataset.for){
 				case 'temp':
 					toggleT(el);
@@ -95,6 +103,7 @@
 			el[3].style.transform = 'translateX(0%)';
 			el[4].style.transform = 'translateX(0%)';
 			el[5].style.transform = 'translateX(0%)';
+			el[6].style.transform = 'translateX(0%)';
 					
 		}
 		
@@ -105,6 +114,7 @@
 			el[3].style.transform = 'translateX(-100%)';
 			el[4].style.transform = 'translateX(-100%)';
 			el[5].style.transform = 'translateX(-100%)';
+			el[6].style.transform = 'translateX(-100%)';
 		}
 
 		function toggleW(el){
@@ -114,6 +124,7 @@
 			el[3].style.transform = 'translateX(-200%)';
 			el[4].style.transform = 'translateX(-200%)';
 			el[5].style.transform = 'translateX(-200%)';
+			el[6].style.transform = 'translateX(-200%)';
 		}
 	</script>
 </html>
